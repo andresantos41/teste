@@ -1,10 +1,12 @@
 package br.com.springboot.projetofinal.controllers;
 
+
 import javax.swing.JOptionPane;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +28,7 @@ import br.com.springboot.projetofinal.repository.UsuarioRepository;
  *
  * A sample greetings controller to return greeting text
  */
-@RestController
+@RestController //o certo é @controler e não @Restcontroler
 public class GreetingsController {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
@@ -35,13 +37,13 @@ public class GreetingsController {
      * @param name the name to greet
      * @return greeting text
      */
-	
+	/*
     @RequestMapping(value = "/{name}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public String greetingText(@PathVariable String name) {
         return "hello" + name + "!";
     }
-    
+    */
     @RequestMapping(value = "mostrarnome/{nome}",method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public String Mostrarnome(@PathVariable String nome) {
@@ -99,4 +101,15 @@ public class GreetingsController {
     	return new ResponseEntity<Usuario>(user,HttpStatus.OK);
     }
    
+  //buscando usuário pelo nome
+    @GetMapping(value="buscarPorNome")
+    @ResponseBody
+    public ResponseEntity<java.util.List<Usuario>> buscarPorNome(@RequestParam(name="name") String name){
+    	
+    	java.util.List<Usuario> usuario = usuarioRepository.buscarPorNome(name.trim().toUpperCase());
+    	return new ResponseEntity<java.util.List<Usuario>>(usuario,HttpStatus.OK);
+    }
+    
+    
+    
 }
